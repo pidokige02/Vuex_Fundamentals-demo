@@ -40,11 +40,14 @@
 
       <button type="submit">Submit</button>
     </form>
+    <!-- <div>{{ $store.state.events }}</div> -->
+    <!-- this is just for debugging purpose -->
   </div>
 </template>
 
 <script>
 import { v4 as uuidv4 } from 'uuid'
+import EventService from '@/services/EventService.js'
 
 export default {
   data() {
@@ -72,10 +75,21 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.event.id = uuidv4()
-      //access our user state by writing this.$store.state.user.
-      this.event.organizer = this.$store.state.user
-      console.log('Event:', this.event)
+      const event = {
+        ...this.event, //Object spread operator, this.event all element 를 모두 copy 하여 clone 하고, 밑의 command 를 실행한다.
+        id: uuidv4(),
+        //access our user state by writing this.$store.state.user.
+        organizer: this.$store.state.user
+      }
+      EventService.postEvent(event)
+        .then(() => {
+          //add event to Vuex state
+          //'ADD_EVENT' is mutation, event is payload
+          this.$store.commit('ADD_EVENT', event)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
