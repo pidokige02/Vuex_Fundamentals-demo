@@ -47,7 +47,8 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid'
-import EventService from '@/services/EventService.js'
+// commented in lesson 4 below code is moved to action in store folder
+// import EventService from '@/services/EventService.js'
 
 export default {
   data() {
@@ -81,15 +82,17 @@ export default {
         //access our user state by writing this.$store.state.user.
         organizer: this.$store.state.user
       }
-      EventService.postEvent(event)
-        .then(() => {
-          //add event to Vuex state
-          //'ADD_EVENT' is mutation, event is payload
-          this.$store.commit('ADD_EVENT', event)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      this.$store.dispatch('createEvent', event)
+      // commented in lesson 4 below code is moved to action
+      // EventService.postEvent(event)
+      //   .then(() => {
+      //     //add event to Vuex state
+      //     //'ADD_EVENT' is mutation, event is payload
+      //     this.$store.commit('ADD_EVENT', event)
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //   })
     }
   }
 }

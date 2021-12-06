@@ -7,25 +7,33 @@
 
 <script>
 import EventCard from '@/components/EventCard.vue'
-import EventService from '@/services/EventService.js'
+// import EventService from '@/services/EventService.js'
 export default {
   name: 'EventList',
   components: {
     EventCard
   },
-  data() {
-    return {
-      events: null
-    }
-  },
+  // data() { // comment out in lesson 4. it's moved to compute
+  //   return {
+  //     events: null
+  //   }
+  // },
   created() {
-    EventService.getEvents()
-      .then(response => {
-        this.events = response.data
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    this.$store.dispatch('fetchEvents') //commiting the fetchEvent in action.
+    // commented out in lesson4
+    // EventService.getEvents()
+    //   .then(response => {
+    //     this.events = response.data
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
+  },
+  computed: {
+    events() {
+      //will always return the most current events
+      return this.$store.state.events
+    }
   }
 }
 </script>
