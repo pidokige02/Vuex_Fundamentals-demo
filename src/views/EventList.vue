@@ -19,7 +19,14 @@ export default {
   //   }
   // },
   created() {
-    this.$store.dispatch('fetchEvents') //commiting the fetchEvent in action.
+    this.$store
+      .dispatch('fetchEvents') //commiting the fetchEvent in action.
+      .catch(error => {
+        this.$router.push({
+          name: 'ErrorDisplay',
+          params: { error: error }
+        })
+      })
     // commented out in lesson4
     // EventService.getEvents()
     //   .then(response => {

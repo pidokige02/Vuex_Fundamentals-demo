@@ -82,17 +82,31 @@ export default {
         //access our user state by writing this.$store.state.user.
         organizer: this.$store.state.user
       }
-      this.$store.dispatch('createEvent', event)
-      // commented in lesson 4 below code is moved to action
-      // EventService.postEvent(event)
-      //   .then(() => {
-      //     //add event to Vuex state
-      //     //'ADD_EVENT' is mutation, event is payload
-      //     this.$store.commit('ADD_EVENT', event)
-      //   })
-      //   .catch(error => {
-      //     console.log(error)
-      //   })
+      this.$store
+        .dispatch('createEvent', event)
+        // commented in lesson 4 below code is moved to action
+        // EventService.postEvent(event)
+        //   .then(() => {
+        //     //add event to Vuex state
+        //     //'ADD_EVENT' is mutation, event is payload
+        //     this.$store.commit('ADD_EVENT', event)
+        //   })
+        //   .catch(error => {
+        //     console.log(error)
+        //   })
+        .then(() => {
+          //add dynamic routing in lesson5
+          this.$router.push({
+            name: 'EventDetails',
+            params: { id: event.id }
+          })
+        })
+        .catch(error => {
+          this.$router.push({
+            name: 'ErrorDisplay',
+            params: { error: error } // error is fed into ErrorDispay as a prop
+          })
+        })
     }
   }
 }

@@ -16,14 +16,22 @@ export default {
   //   }
   // },
   created() {
-    this.$store.dispatch('fetchEvent', this.id)
-    // EventService.getEvent(this.id)
-    //   .then(response => {
-    //     this.event = response.data
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
+    this.$store
+      .dispatch('fetchEvent', this.id)
+      // EventService.getEvent(this.id)
+      //   .then(response => {
+      //     this.event = response.data
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //   })
+      .catch(error => {
+        //add dynamic routing in lesson5
+        this.$router.push({
+          name: 'ErrorDisplay',
+          params: { error: error }
+        })
+      })
   },
   computed: {
     event() {

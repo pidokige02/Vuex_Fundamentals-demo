@@ -22,21 +22,21 @@ export default createStore({
   actions: {
     createEvent({ commit }, event) {
       //commit : part of context object
-      EventService.postEvent(event)
+      return EventService.postEvent(event)
         .then(() => {
           commit('ADD_EVENT', event) // commiting the mutation code
         })
         .catch(error => {
-          console.log(error)
+          throw error
         })
     },
     fetchEvents({ commit }) {
-      EventService.getEvents()
+      return EventService.getEvents()
         .then(response => {
           commit('SET_EVENTS', response.data) // commiting the mutation code
         })
         .catch(error => {
-          console.log(error)
+          throw error
         })
     },
     fetchEvent({ commit, state }, id) {
@@ -45,12 +45,12 @@ export default createStore({
       if (existingEvent) {
         commit('SET_EVENT', existingEvent)
       } else {
-        EventService.getEvent(id)
+        return EventService.getEvent(id)
           .then(response => {
             commit('SET_EVENT', response.data)
           })
           .catch(error => {
-            console.log(error)
+            throw error
           })
       }
     }
